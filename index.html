@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #ff0a54;--rose:#ff4d6d; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Quicksand', sans-serif; }
+
+        /* --- Intro Screen --- */
+        #intro-screen {
+            position: fixed; inset: 0; z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; background: radial-gradient(circle, #f483a5, #ffccd5);
+            transition: all 1s ease-in-out;
+        }
+        .btn-surprise {
+            padding: 20px 60px; font-size: 1.8rem; border: none; border-radius: 50px;
+            background: var(--accent); color: white; cursor: pointer;
+            font-family: 'Dancing Script', cursive; box-shadow: 0 10px 30px rgba(255, 10, 84, 0.5);animation: pulse 2s infinite;
+        }
+        @keyframes pulse{
+            0%,100%{ transform: ;} 50%{ transform: scale(1.05);}
+        }
+
+        /* --- Main Stage --- */
+        #celebration {
+            position: relative; width: 100vw; height: 100vh;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(to bottom, #ff85a1, #fbb1bd);
+            perspective: 1200px;
+        }
+
+        .main-title {
+            font-family: 'Pacifico', cursive; font-size: 3.5rem; color: white;
+            text-shadow: 0 0 10px rgba(255,10,84,0.8),0 0 20px rgba(255, 10, 84, 0.5); margin-bottom: 20px;
+            z-index: 100;
+            animation: float 3s ease-in-out infinite;}
+            @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);}
+        }
+
+        /* --- Individual Image Phase --- */
+        #single-display {
+            position: relative; width: 300px; height: 500px; z-index: 50;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .photo-card {
+            width: 300px; height: 425px; background: white; border: 10px solid white;
+            border-radius: 10px; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            overflow: hidden; position: relative;
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        .quote-box {
+            margin-top: 25px; padding: 15px 30px; background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px; color: var(--accent); font-size: 1.4rem;
+            text-align: center; width: 120%;
+        }
+
+        /* --- Phase 1 Animations --- */
+        .anim-zoom { animation: zoomIn 1s forwards; }
+        .anim-flip { animation: flipIn 1s forwards; }
+        .anim-slide { animation: slideIn 1s forwards; }
+        .anim-bounce { animation: bounceIn 1s forwards; }
+
+        @keyframes zoomIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes flipIn { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateX(-150%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes bounceIn { 0% { transform: translateY(-200%); } 70% { transform: translateY(10%); } 100% { transform: translateY(0); } }
+
+        /* --- Phase 2: Carousel --- */
+        #drag-container {
+            position: relative; display: none; transform-style: preserve-3d;
+            margin-top: 50px;
+        }
+        #spin-container {
+            position: relative; display: flex; transform-style: preserve-3d;
+            width: 150px; height: 200px;
+            animation: autoRotate 30s infinite linear;
+        }
+        #spin-container img {
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+            border: 3px solid white; border-radius: 5px;
+        }
+        @keyframes autoRotate { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        .falling { position: absolute; top: -10vh; z-index: 5; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <audio id="birthday-song" loop>
+        <source src="romantic_song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="intro-screen">
+        <h1 style="color: #ff0a54; font-family: 'Pacifico', cursive; font-size: 2.5rem;">A Surprise Awaits...</h1>
+        <button class="btn-surprise" onclick="ignite()">Open Your Heart ❤️</button>
+    </div>
+
+    <div id="celebration">
+        <div class="main-title">Happy Birthday!</div>
+
+        <div id="single-display">
+            <div id="photo-frame" class="photo-card">
+                <img id="current-img" src="sic1.jpg">
+            </div>
+            <div id="current-quote" class="quote-box">Loading memories...</div>
+        </div>
+
+        <div id="drag-container">
+            <div id="spin-container">
+                </div>
+        </div>
+        
+    </div>
+    <script>
+        const memories = [
+            { img: "sic1.jpg", quote: "My favorite smile in the world 🍫", anim: "anim-zoom" },
+            { img: "sic3.jpg", quote: "The day we first met... ❤️", anim: "anim-zoom" },
+            { img: "sic4.jpg", quote: "Every moment is a treasure ✨", anim: "anim-slide" },
+            { img: "sic2.jpg", quote: "To the person who knows me best 🧸", anim: "anim-bounce" },
+            { img: "sic5.jpg", quote: "You are my sunshine 🌸", anim: "anim-zoom" },
+            { img: "sic6.jpg", quote: "A love like no other 🎁", anim: "anim-flip" },
+            { img: "sic7.jpg", quote: "The sparkle in my eyes 💎", anim: "anim-slide" },
+            { img: "sic8.jpg", quote: "Forever isn't long enough 🎀", anim: "anim-bounce" },
+            { img: "sic9.jpg", quote: "You make life beautiful 🌹", anim: "anim-zoom" },
+            { img: "sic10.jpg", quote: "And now, our eternal circle...", anim: "anim-flip" }
+        ];
+
+        let index = 0;
+        const radius = 350;
+
+        function ignite() {
+            document.getElementById('birthday-song').play().catch(e => console.log("Audio needed."));
+            document.getElementById('intro-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('celebration').style.display = 'flex';
+                setInterval(spawn, 40); // Heavy falling roses/sparkles
+                showNextMemory();
+            }, 1000);
+        }
+
+        function showNextMemory() {
+            if (index < memories.length) {
+                const frame = document.getElementById('photo-frame');
+                const img = document.getElementById('current-img');
+                const quote = document.getElementById('current-quote');
+                
+                frame.className = "photo-card " + memories[index].anim;
+                img.src = memories[index].img;
+                quote.innerText = memories[index].quote;
+
+                index++;
+                setTimeout(showNextMemory, 3500); // 3.5 seconds per image
+            } else {
+                startFinalCircle();
+            }
+        }
+
+        function startFinalCircle() {
+            document.getElementById('single-display').style.display = 'none';
+            const dragContainer = document.getElementById('drag-container');
+            const spinContainer = document.getElementById('spin-container');
+            dragContainer.style.display = 'block';
+
+            // Create 10 images in circle
+            memories.forEach((m, i) => {
+                const img = document.createElement('img');
+                img.src = m.img;
+                img.style.transform = `rotateY(${i * (360 / memories.length)}deg) translateZ(${radius}px)`;
+                spinContainer.appendChild(img);
+            });
+
+            setupDragging();
+        }
+
+        function setupDragging() {
+            let tX = 0, tY = 10;
+            document.onpointerdown = function(e) {
+                let sX = e.clientX, sY = e.clientY;
+                this.onpointermove = function(e) {
+                    tX += (e.clientX - sX) * 0.2;
+                    tY -= (e.clientY - sY) * 0.2;
+                    applyTransform(document.getElementById('drag-container'));
+                    sX = e.clientX; sY = e.clientY;
+                };
+                this.onpointerup = function() { this.onpointermove = null; };
+            };
+            function applyTransform(obj) {
+                if (tY > 180) tY = 180; if (tY < 0) tY = 0;
+                obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
+            }
+        }
+
+        function spawn() {
+            const emojis = ['🌹', '🌸', '🍫', '✨', '🧸', '💖'];
+            const e = document.createElement('div');
+            e.className = 'falling';
+            e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.fontSize = Math.random() * 20 + 20 + 'px';
+            const speed = Math.random() * 2 + 1.5;
+            e.style.animationDuration = speed + 's';
+            document.body.appendChild(e);
+            setTimeout(() => e.remove(), speed * 1000);
+        }
+    </script>
+</body>
+</html>
